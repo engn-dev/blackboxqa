@@ -4,23 +4,21 @@
 > Browse, search, organize, and replay recorded QA sessions (trace, video, network HAR, console,
 > per-step screenshots) in your browser. Self-contained — no daemon, no setup.
 
-[![npm](https://img.shields.io/npm/v/@blackboxqa/ui.svg)](https://www.npmjs.com/package/@blackboxqa/ui)
-[![license](https://img.shields.io/npm/l/@blackboxqa/ui.svg)](https://github.com/engn-dev/blackboxqa)
-
 Like `npx playwright show-trace`, but for whole BlackboxQA sessions: it spins up a local server, opens
-your browser, and reads the artifacts that [`@blackboxqa/cli`](https://www.npmjs.com/package/@blackboxqa/cli)
+your browser, and reads the artifacts that [`@blackboxqa/cli`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa)
 wrote to `~/.blackboxqa/sessions`.
 
 ## Use
 
-```bash
-npm i -g @blackboxqa/ui            # adds the `blackboxqa-viewer` command
-blackboxqa-viewer                     # browse ~/.blackboxqa/sessions, opens your browser
+Built from source (not published to npm) — see the
+[repo README](https://github.com/engn-dev/blackboxqa#get-started). Then:
 
+```bash
+blackboxqa-viewer                     # browse ~/.blackboxqa/sessions, opens your browser
 blackboxqa-viewer --dir ./artifacts   # point at a non-default sessions folder
 ```
 
-No global install? `npx @blackboxqa/ui`. Stop it with `Ctrl-C`.
+Stop it with `Ctrl-C`.
 
 The BlackboxQA CLI also launches it for you — `blackboxqa ui` is the same viewer.
 
@@ -48,7 +46,8 @@ Search and organize across every recorded session from the index.
 
 ## Related packages
 
-- [`@blackboxqa/cli`](https://www.npmjs.com/package/@blackboxqa/cli) — record the sessions this viewer
+- [`@blackboxqa/cli`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa) — record the sessions this viewer
   displays.
-- [`@blackboxqa/browser`](https://www.npmjs.com/package/@blackboxqa/browser) — one-off automation engine.
+- [`@blackboxqa/browser`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa-browser) — one-off automation engine.
+
 MIT · [source](https://github.com/engn-dev/blackboxqa)

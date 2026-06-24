@@ -3,10 +3,7 @@
 > `blackboxqa-browser` — the browser-automation engine for
 > [BlackboxQA](https://github.com/engn-dev/blackboxqa). Run sandboxed JavaScript against a real Chromium with
 > persistent, named pages. This is **one-off** automation — nothing is recorded. For capture-enabled QA
-> sessions with a `report.html`, use [`@blackboxqa/cli`](https://www.npmjs.com/package/@blackboxqa/cli).
-
-[![npm](https://img.shields.io/npm/v/@blackboxqa/browser.svg)](https://www.npmjs.com/package/@blackboxqa/browser)
-[![license](https://img.shields.io/npm/l/@blackboxqa/browser.svg)](https://github.com/engn-dev/blackboxqa)
+> sessions with a `report.html`, use [`@blackboxqa/cli`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa).
 
 Scripts are plain async JavaScript in a QuickJS sandbox with a Playwright-like API — no `require`,
 `process`, `fs`, or `fetch`; just a pre-connected `browser`, `console`, and a few file helpers. A
@@ -15,12 +12,15 @@ click, fill, scrape, screenshot, or check a page — fast.
 
 ## Install
 
+Built from source (not published to npm) — see the
+[repo README](https://github.com/engn-dev/blackboxqa#get-started):
+
 ```bash
-npm i -g @blackboxqa/browser   # adds the `blackboxqa-browser` command
+git clone https://github.com/engn-dev/blackboxqa.git && cd blackboxqa
+make install && make build
+(cd apps/blackboxqa-browser && pnpm link --global)
 blackboxqa-browser install        # one-time: download Chromium + runtime into ~/.blackboxqa
 ```
-
-No global install? Use `npx @blackboxqa/browser …`.
 
 ## Quickstart
 
@@ -100,7 +100,8 @@ Full reference:
 
 ## Related packages
 
-- [`@blackboxqa/cli`](https://www.npmjs.com/package/@blackboxqa/cli) — record verifiable QA **sessions**
+- [`@blackboxqa/cli`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa) — record verifiable QA **sessions**
   (trace/video/HAR/console) and render a report.
-- [`@blackboxqa/ui`](https://www.npmjs.com/package/@blackboxqa/ui) — browse recorded sessions.
+- [`@blackboxqa/ui`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa-ui) — browse recorded sessions.
+
 MIT · [source](https://github.com/engn-dev/blackboxqa)

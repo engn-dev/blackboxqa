@@ -4,9 +4,6 @@
 > browser, record capture-enabled QA sessions (Playwright trace, video, network HAR, console, per-step
 > screenshots), and render a self-contained `report.html` you can open, commit, or browse in a local UI.
 
-[![npm](https://img.shields.io/npm/v/@blackboxqa/cli.svg)](https://www.npmjs.com/package/@blackboxqa/cli)
-[![license](https://img.shields.io/npm/l/@blackboxqa/cli.svg)](https://github.com/engn-dev/blackboxqa)
-
 BlackboxQA is built for **AI agents and developers who need verifiable, reproducible browser QA**. Every
 run captures a trace, a video, a network log, console output, and per-step screenshots — and decodes
 back to a reproducible Playwright script — with no instrumentation of your app. Scripts are plain
@@ -26,18 +23,15 @@ You drive the daemon through a four-step session lifecycle:
 
 ## Install
 
+BlackboxQA is built from source (not published to npm) — see the
+[repo README](https://github.com/engn-dev/blackboxqa#get-started) for full setup:
+
 ```bash
-npm i -g @blackboxqa/cli     # adds the `blackboxqa` command
+git clone https://github.com/engn-dev/blackboxqa.git && cd blackboxqa
+make install && make build
+(cd apps/blackboxqa && pnpm link --global)
 blackboxqa install              # one-time: download Chromium + runtime (~150 MB) into ~/.blackboxqa
 ```
-
-Prefer not to install globally? Prefix anything with `npx`:
-
-```bash
-npx @blackboxqa/cli install
-```
-
-Or set everything up interactively with the guided wizard — `npm create blackboxqa`.
 
 ## Quickstart
 
@@ -70,7 +64,7 @@ across steps within a session.
 
 | Command | What it does |
 | --- | --- |
-| `blackboxqa init` | One-shot setup: install the runtime, then print next steps. The friendlier wizard is `npm create blackboxqa`. |
+| `blackboxqa init` | One-shot setup: install the runtime, then print next steps. |
 | `blackboxqa install` | Install the embedded runtime (Chromium + Playwright + QuickJS) into `~/.blackboxqa`. |
 | `blackboxqa session start` | Start a capture-enabled session; prints its id. Toggle capture with `--no-trace` / `--no-video` / `--no-har` / `--no-console`; `--headless` for unattended runs. |
 | `blackboxqa run [FILE]` | Run a script (a file, or stdin if omitted) as one step. Requires `--session <id>`; label it with `--step <name>`; bound it with `--timeout <seconds>`. |
@@ -136,7 +130,8 @@ an agent can plan and record QA for you:
 
 ## Related packages
 
-- [`@blackboxqa/browser`](https://www.npmjs.com/package/@blackboxqa/browser) — the engine for quick
+- [`@blackboxqa/browser`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa-browser) — the engine for quick
   one-off automation (no recording, no report).
-- [`@blackboxqa/ui`](https://www.npmjs.com/package/@blackboxqa/ui) — the `blackboxqa-viewer` session browser.
+- [`@blackboxqa/ui`](https://github.com/engn-dev/blackboxqa/tree/main/apps/blackboxqa-ui) — the `blackboxqa-viewer` session browser.
+
 MIT · [source](https://github.com/engn-dev/blackboxqa)
