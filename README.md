@@ -320,7 +320,7 @@ blackboxqa install        # refresh the runtime (Chromium + Playwright) if the p
 
 ## Contributing & development
 
-BlackboxQA is a pnpm + Turborepo monorepo: five apps and five packages cooperate to make agent-driven
+BlackboxQA is a pnpm + Turborepo monorepo: four apps and five packages cooperate to make agent-driven
 browser automation reproducible.
 
 <details>
@@ -332,8 +332,7 @@ blackboxqa/
 │   ├── blackboxqa/             # @blackboxqa/cli      bin: blackboxqa          — session orchestrator (record QA sessions, render reports)
 │   ├── blackboxqa-browser/     # @blackboxqa/browser  bin: blackboxqa-browser  — browser-automation engine (one-off runs)
 │   ├── blackboxqa-daemon/      # @blackboxqa/daemon   no bin               — Playwright + QuickJS runtime (embedded into the CLIs)
-│   ├── blackboxqa-ui/          # @blackboxqa/ui       bin: blackboxqa-viewer   — local session viewer (Astro); `blackboxqa-viewer`
-│   └── create-blackboxqa/      # create-blackboxqa    bin: create-blackboxqa   — guided setup wizard (Ink)
+│   └── blackboxqa-ui/          # @blackboxqa/ui       bin: blackboxqa-viewer   — local session viewer (Astro); `blackboxqa-viewer`
 ├── packages/
 │   ├── protocol/           # @blackboxqa/protocol         IPC schemas (Zod), single source of truth
 │   ├── config/             # @blackboxqa/config           shared tsconfig bases

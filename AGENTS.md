@@ -25,7 +25,6 @@ blackboxqa run … --session …   /   blackboxqa-browser run …   →   daemon
 | `apps/blackboxqa-browser`    | Browser-automation engine CLI (`blackboxqa-browser`) — owns the daemon lifecycle, embeds the daemon |
 | `apps/blackboxqa-daemon`     | Internal Playwright host + QuickJS sandbox. Built standalone, embedded into the CLIs            |
 | `apps/blackboxqa-ui`         | Local web viewer (Astro + React islands). Reads `results.json`; run via `blackboxqa ui` or `blackboxqa-viewer` |
-| `apps/create-blackboxqa`     | Guided setup wizard (Ink)                                                          |
 | `packages/protocol`      | Zod IPC schemas. Single source of truth — daemon validates, CLIs infer types                    |
 | `packages/config`        | Shared tsconfig bases (`base`, `node-app`)                                                       |
 | `packages/logger`        | Shared pino-backed structured logger (source-distributed)                                       |

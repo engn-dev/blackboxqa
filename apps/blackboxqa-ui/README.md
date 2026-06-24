@@ -51,6 +51,4 @@ Search and organize across every recorded session from the index.
 - [`@blackboxqa/cli`](https://www.npmjs.com/package/@blackboxqa/cli) — record the sessions this viewer
   displays.
 - [`@blackboxqa/browser`](https://www.npmjs.com/package/@blackboxqa/browser) — one-off automation engine.
-- [`create-blackboxqa`](https://www.npmjs.com/package/create-blackboxqa) — `npm create blackboxqa` guided setup.
-
 MIT · [source](https://github.com/engn-dev/blackboxqa)

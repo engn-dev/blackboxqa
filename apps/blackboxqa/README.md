@@ -139,6 +139,4 @@ an agent can plan and record QA for you:
 - [`@blackboxqa/browser`](https://www.npmjs.com/package/@blackboxqa/browser) — the engine for quick
   one-off automation (no recording, no report).
 - [`@blackboxqa/ui`](https://www.npmjs.com/package/@blackboxqa/ui) — the `blackboxqa-viewer` session browser.
-- [`create-blackboxqa`](https://www.npmjs.com/package/create-blackboxqa) — `npm create blackboxqa` guided setup.
-
 MIT · [source](https://github.com/engn-dev/blackboxqa)

@@ -3,7 +3,7 @@ import { installCommand } from "./install.js";
 // First-run setup: install the browser runtime, then point the user at the
 // agent plugin and the viewer. Skills/agents/commands install via the plugin
 // marketplaces (Claude Code / Cursor / Codex) — there is no separate skill
-// installer. `create-blackboxqa` is the friendlier Ink front-end.
+// installer.
 export async function initCommand(): Promise<number> {
   process.stdout.write(
     "Setting up blackboxqa…\n\n▶ Installing the browser runtime (Chromium)\n"

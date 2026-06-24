@@ -103,6 +103,4 @@ Full reference:
 - [`@blackboxqa/cli`](https://www.npmjs.com/package/@blackboxqa/cli) — record verifiable QA **sessions**
   (trace/video/HAR/console) and render a report.
 - [`@blackboxqa/ui`](https://www.npmjs.com/package/@blackboxqa/ui) — browse recorded sessions.
-- [`create-blackboxqa`](https://www.npmjs.com/package/create-blackboxqa) — `npm create blackboxqa` guided setup.
-
 MIT · [source](https://github.com/engn-dev/blackboxqa)
