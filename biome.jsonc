@@ -1,0 +1,178 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
+  // Ultracite's framework-agnostic Biome preset. It sets the formatter
+  // (2-space, 80-col, double quotes, semicolons, es5 trailing commas), import
+  // sorting, and a strict rule set, and already ignores dist/build/coverage/
+  // *.min.js/*.generated.* and relaxes tests + scripts. See node_modules/
+  // ultracite/config/biome/core/biome.jsonc.
+  "extends": ["ultracite/biome/core"],
+  "files": {
+    // Never format or lint the vendored Playwright fork — it is checked in
+    // as-is (82 files carry @ts-nocheck) and must stay diffable against
+    // upstream. It is TRACKED, so .gitignore won't skip it; `!!` is a hard
+    // ignore that survives config merges (appended to the preset's `**` base).
+    // `examples/` holds sandbox demo scripts that run against injected globals
+    // (`browser`, `saveScreenshot`) and intentionally `console.log`; they're dev
+    // fixtures, not app code, so skip them too.
+    "includes": ["!!**/sandbox/forked-client", "!!examples"]
+  },
+  "linter": {
+    "rules": {
+      "suspicious": {
+        // Enforce structured logging: diagnostics go through @blackboxqa/logger and
+        // user-facing CLI output through process.stdout. (Core leaves this off;
+        // tests + scripts/*.mjs are already exempt by the preset.)
+        "noConsole": "error"
+      },
+      "complexity": {
+        // `void promise` is this project's idiom for intentional fire-and-forget
+        // (explicitly discarding a floating promise) — keep it.
+        "noVoid": "off"
+      },
+      "performance": {
+        // The flagged regexes live in cold paths (CLI/arg/path parsing); hoisting
+        // them to module scope adds clutter without measurable benefit.
+        "useTopLevelRegex": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      // QuickJS sandbox host: installs a `console` shim for guest scripts,
+      // uses async factory signatures for Playwright-dispatcher conformance,
+      // and no-op teardown handlers. None of these can use a Node logger.
+      "includes": ["apps/blackboxqa-daemon/src/sandbox/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off",
+            "useAwait": "off",
+            "noEmptyBlockStatements": "off"
+          }
+        }
+      }
+    },
+    {
+      // commander is CJS; a namespace import (+ cast) is required for its
+      // ESM/CJS interop under esbuild.
+      "includes": [
+        "apps/blackboxqa-browser/src/cli.ts",
+        "apps/blackboxqa/src/cli.ts"
+      ],
+      "linter": {
+        "rules": {
+          "performance": { "noNamespaceImport": "off" }
+        }
+      }
+    },
+    {
+      // Package public-API barrel + thin re-export shims that re-source shared
+      // helpers from @blackboxqa/cli-kit so each CLI's existing import paths and
+      // snapshots stay stable. The rule targets app module graphs, not these.
+      "includes": [
+        "packages/daemon-client/src/index.ts",
+        "packages/cli-kit/src/index.ts",
+        "apps/blackboxqa/src/commands/render.ts",
+        "apps/blackboxqa/src/util/request-id.ts",
+        "apps/blackboxqa-browser/src/commands/render.ts",
+        "apps/blackboxqa-browser/src/util/request-id.ts",
+        "apps/blackboxqa-browser/src/util/format.ts"
+      ],
+      "linter": {
+        "rules": {
+          "performance": { "noBarrelFile": "off" }
+        }
+      }
+    },
+    {
+      // POSIX open(2)/access(2) flags are combined with bitwise OR/AND.
+      "includes": [
+        "apps/blackboxqa-daemon/src/temp-files.ts",
+        "packages/daemon-client/src/daemon/npm.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": { "noBitwiseOperators": "off" }
+        }
+      }
+    },
+    {
+      // Tests + test helpers: async assertions/mocks without await, non-null
+      // assertions on known fixtures, and empty stubs are idiomatic.
+      "includes": [
+        "**/*.{test,spec}.{ts,tsx,js,jsx}",
+        "**/__tests__/**",
+        "**/test/**"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "useAwait": "off",
+            "noEmptyBlockStatements": "off"
+          },
+          "style": { "noNonNullAssertion": "off" },
+          "complexity": { "noUselessStringRaw": "off" }
+        }
+      }
+    },
+    {
+      // Astro .astro components: Biome parses only the frontmatter script, so
+      // imports/consts used in the template read as unused — keep the rules
+      // from stripping them (the upstream-recommended Astro setup).
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    },
+    {
+      // Astro viewer app. Its endpoints/server code may log diagnostics to the
+      // terminal that spawned `blackboxqa ui` (no shared CLI stdout/stderr contract
+      // like the other apps), and endpoint handlers are conventionally `async`
+      // even when a given body doesn't await.
+      "includes": ["apps/blackboxqa-ui/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off",
+            "useAwait": "off",
+            // Read-only render of fetched data — console/network table rows are
+            // never reordered or inserted, the canonical safe use of index keys.
+            "noArrayIndexKey": "off"
+          },
+          // Session artifacts are local images of unknown dimensions served from
+          // /api/artifact; next/image (optimizer + required dims) is the wrong
+          // tool here, and the CSS already constrains layout. Plain <img> is right.
+          "performance": { "noImgElement": "off" },
+          "correctness": { "useImageSize": "off" }
+        }
+      }
+    },
+    {
+      // shadcn/ui sidebar primitive + its mobile hook are generated components.
+      // Unlike the other ui/* wrappers (which are type-only and so use
+      // `import type * as React`), the sidebar uses React hooks at runtime and
+      // needs a value namespace import; it also ships shadcn's intentional
+      // context-memo dependency list. Keep them faithful to upstream rather than
+      // hand-editing generated code.
+      "includes": [
+        "apps/blackboxqa-ui/src/components/ui/sidebar.tsx",
+        "apps/blackboxqa-ui/src/hooks/use-mobile.ts"
+      ],
+      "linter": {
+        "rules": {
+          "performance": { "noNamespaceImport": "off" },
+          "correctness": { "useExhaustiveDependencies": "off" },
+          "style": { "useConsistentTypeDefinitions": "off" },
+          // shadcn persists the open/closed state via a document.cookie write;
+          // the Cookie Store API the rule suggests isn't a drop-in here.
+          "suspicious": { "noDocumentCookie": "off" }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "@blackboxqa/cli",
+  "version": "0.4.4",
+  "type": "module",
+  "description": "BlackboxQA session orchestrator CLI. Drives the daemon to run capture-enabled QA sessions (trace/video/HAR/console) and renders self-contained verification reports.",
+  "license": "MIT",
+  "keywords": [
+    "browser-automation",
+    "qa",
+    "playwright",
+    "ai-agent",
+    "testing",
+    "claude",
+    "cli",
+    "session-recording"
+  ],
+  "homepage": "https://github.com/engn-dev/blackboxqa#readme",
+  "bugs": "https://github.com/engn-dev/blackboxqa/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engn-dev/blackboxqa.git",
+    "directory": "apps/blackboxqa"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "blackboxqa": "./dist/cli.js"
+  },
+  "files": [
+    "dist/",
+    "NOTICE",
+    "THIRD-PARTY-LICENSES"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "tsx src/cli.ts",
+    "compile": "tsc --noEmit",
+    "test": "pnpm build && vitest run",
+    "test:watch": "pnpm build && vitest",
+    "clean": "rm -rf dist coverage .turbo",
+    "prepack": "node scripts/build.mjs && cp ../../NOTICE ../../THIRD-PARTY-LICENSES ."
+  },
+  "devDependencies": {
+    "@blackboxqa/cli-kit": "workspace:*",
+    "@blackboxqa/config": "workspace:*",
+    "@blackboxqa/daemon-client": "workspace:*",
+    "@blackboxqa/logger": "workspace:*",
+    "@blackboxqa/protocol": "workspace:*",
+    "@types/node": "^20.17.10",
+    "commander": "^12.1.0",
+    "esbuild": "^0.27.4",
+    "fflate": "^0.8.2",
+    "pino": "^9.5.0",
+    "pino-pretty": "^13.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.0"
+  }
+}

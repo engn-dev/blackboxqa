@@ -1,0 +1,127 @@
+// Help prose for the `blackboxqa` orchestrator, shown via commander's
+// `.addHelpText()` / `.description()`. Mirrors the blackboxqa-browser engine's
+// rich `--help` (a long-about + an after-help usage guide + per-command detail).
+// The sandbox rules, script API, and scripting guide come from
+// @blackboxqa/cli-kit — the single source of truth shared with blackboxqa-browser —
+// so `blackboxqa --help` is fully self-contained for writing step scripts even
+// when the engine CLI is not installed.
+import {
+  buildScriptingGuide,
+  indent,
+  RULE_DATA_PASSING,
+  RULE_FAIL_FAST,
+  RULE_SCREENSHOT,
+  sandboxReference,
+  sessionExample,
+} from "@blackboxqa/cli-kit";
+
+// Shown at the top of `blackboxqa --help`.
+export const CLI_LONG_ABOUT = `BlackboxQA records capture-enabled QA sessions. It drives a real browser with
+scripts run as ordered steps, captures a Playwright trace, video, network HAR,
+and console for each run, and renders a self-contained report.html you can open
+or browse in a local web UI. A background daemon (Playwright + a QuickJS sandbox)
+starts automatically when needed.
+
+THE SESSION LIFECYCLE:
+  1. start   blackboxqa session start --name "checkout"        -> prints a session id
+  2. run     blackboxqa run step.js --session <id> --step open    (one script per step)
+  3. end     blackboxqa session end <id>                        -> writes report.html
+  4. view    blackboxqa ui                                      -> browse every session
+
+WHAT IS CAPTURED (per session; toggle on \`session start\`):
+  trace        Playwright trace — DOM snapshots + actions, one group per step
+  video        WebM recording of the run
+  har          network request/response log
+  console      console output + page errors
+  screenshots  one per step, auto-captured from the step's last-opened page
+
+Artifacts live under ~/.blackboxqa/sessions/<id>/ (session.json, results.json, report.html, trace.zip, …).
+Scripts run in a QuickJS sandbox (not Node.js) with a pre-connected \`browser\` global — the full
+reference follows; the SCRIPTING GUIDE after the command list has worked examples.
+
+${sandboxReference()}`;
+
+// Shown after the options in `blackboxqa --help`. The screenshot rule, data
+// passing, and step discipline come from the shared doc snippets so this help
+// cannot drift from the skills/REFERENCE.md versions of the same rules.
+export const USAGE_GUIDE = `SESSION WORKFLOW GUIDE:
+  Structure a session as a sequence of small steps — one script per step (open, act, assert).
+  Each \`blackboxqa run --step <name>\` is one step in the report, with its own trace group and ONE
+  auto-captured screenshot.
+
+${indent(RULE_SCREENSHOT, "  ")}
+
+  Passing data between steps:
+${indent(RULE_DATA_PASSING, "    ")}
+
+  Reading results:
+    blackboxqa session list                       List sessions (table; --json for machine output)
+    blackboxqa status --session <id>              One session's status
+    open ~/.blackboxqa/sessions/<id>/report.html  The self-contained report
+    blackboxqa ui                                 Browse, search, and organize all sessions
+
+  Step discipline:
+${indent(RULE_FAIL_FAST, "    ")}
+
+  Tips:
+    - \`--json\` (global) emits machine-readable JSON on stdout; \`-v\`/\`--verbose\` raises stderr logging.
+    - \`blackboxqa session end --stop-daemon\` shuts the daemon down if nothing else is using it.
+    - Need a quick one-off with NO recording? Use \`blackboxqa-browser run\` instead of a session.
+
+${buildScriptingGuide({
+  example: sessionExample,
+  heading: "SCRIPTING GUIDE:",
+})}`;
+
+// Per-command long help (shown before that command's own --help body).
+export const SESSION_START_LONG_ABOUT = `Start a capture-enabled session and print its id.
+
+Capture is on by default — disable per stream with --no-trace / --no-video / --no-har / --no-console.
+Use --headless for unattended runs; omit it to watch the browser window.
+
+  id=$(blackboxqa session start --name "checkout")
+  id=$(blackboxqa session start --name "smoke" --headless --no-video)`;
+
+export const RUN_LONG_ABOUT = `Run a script as one step inside a session.
+
+The script (a FILE, or stdin if omitted) executes as top-level JavaScript with \`await\` in a
+sandboxed QuickJS runtime — full reference below. The step's name labels it in the report and
+owns ONE auto-captured screenshot (taken from the LAST page opened during the step). Named
+pages persist across steps within the session, so each step picks up where the last left off;
+pass values between steps with writeFile/readFile.
+
+${sandboxReference()}
+
+Examples:
+  blackboxqa run open.js --session "$id" --step open
+  echo 'const p = await browser.getPage("home"); await p.goto("https://example.com");' \\
+    | blackboxqa run --session "$id" --step home --timeout 30`;
+
+export const SESSION_END_LONG_ABOUT = `Stop recording, collect artifacts, and render the report.
+
+Writes ~/.blackboxqa/sessions/<id>/report.html (self-contained) plus results.json. Pass --stop-daemon to
+shut the daemon down afterward if no other sessions or browsers remain.
+
+  blackboxqa session end "$id"`;
+
+export const STOP_LONG_ABOUT = `Stop the background daemon and everything it is running (all browsers and sessions).
+
+This is the same graceful shutdown as \`blackboxqa daemon stop\`. Any still-active session is
+aborted — its artifacts are flushed, but its report.html is NOT regenerated. For a clean
+report, run \`blackboxqa session end <id>\` first, then \`blackboxqa stop\`.
+
+  blackboxqa stop`;
+
+export const UI_LONG_ABOUT = `Launch the local web UI to browse, organize, and search recorded sessions.
+
+Spins up a local server (like \`npx playwright show-trace\`) and opens your browser. Reads
+~/.blackboxqa/sessions by default; point it elsewhere with --dir. Ctrl-C stops it.
+
+  blackboxqa ui
+  blackboxqa ui --dir ./artifacts --no-open`;
+
+export const INSTALL_LONG_ABOUT = `Install the embedded daemon runtime: Chromium plus the Playwright + QuickJS
+sandbox, into ~/.blackboxqa. Run once before your first session (downloads ~150 MB).`;
+
+export const INIT_LONG_ABOUT = `One-shot setup: install the browser runtime, then print next steps (add the
+agent plugin, install skills, open the viewer). The friendlier Ink version is \`npm create blackboxqa\`.`;

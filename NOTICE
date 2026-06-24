@@ -1,0 +1,21 @@
+BlackboxQA
+Copyright (c) 2026 BlackboxQA contributors
+
+This product is licensed under the MIT License. See LICENSE for the full text.
+
+Portions of this project are derived from MIT-licensed work by Sawyer Hood.
+
+---
+
+This product bundles a modified subset of the Playwright client library:
+
+  Component: Playwright (client-side subset)
+  Copyright (c) Microsoft Corporation
+  License: Apache License 2.0
+  Location: apps/blackboxqa-daemon/src/sandbox/forked-client/
+  Upstream: https://github.com/microsoft/playwright
+  Baseline commit: 3912da7
+  Runtime pin: Playwright 1.58.2
+
+The Playwright client subset is adapted for use inside a QuickJS WASM sandbox.
+See THIRD-PARTY-LICENSES for the full Apache License 2.0 text.

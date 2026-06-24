@@ -1,0 +1,23 @@
+---
+description: BlackboxQA browser automation — when and how to use the blackboxqa skills and workflows.
+alwaysApply: false
+---
+
+# BlackboxQA workflows
+
+BlackboxQA drives a real browser from the CLI and records verifiable QA sessions. Set up once with
+`npx @blackboxqa/cli init` (installs the runtime); browse sessions with `npx @blackboxqa/ui`; stop the
+shared daemon (and all browsers/sessions) with `npx @blackboxqa/cli stop`. For a session, run
+`session end <id>` **before** `stop` — `stop` aborts a live session and skips its report.
+
+- **Verify (change → QA plan)** — read a diff, infer the affected user-facing workflows, and suggest
+  the flows to test; optionally record them. Skill `blackboxqa-verify` / agent `verify-agent`. Command:
+  `/blackboxqa:verify`.
+- **Automate (one-off)** — drive a browser and return a result, nothing recorded. Skill
+  `blackboxqa-automate` / agent `automate-agent`. Command: `/blackboxqa:run`.
+- **Session (recorded QA)** — run scripts as steps that capture trace/video/HAR/console and render
+  `report.html`. Skill `blackboxqa-session` / agent `session-agent`. Command: `/blackboxqa:session`.
+- **Review (triage)** — open the viewer and summarize a recorded session. Skill `blackboxqa-review` /
+  agent `review-agent`. Command: `/blackboxqa:review`.
+- **Scripting API** — the sandbox API (`browser.getPage`, page methods, `saveScreenshot`) lives in
+  the `blackboxqa-scripting` skill and its `references/REFERENCE.md`.

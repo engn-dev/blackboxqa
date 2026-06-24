@@ -1,0 +1,34 @@
+{
+  "name": "@blackboxqa/daemon-client",
+  "version": "0.4.4",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "BlackboxQA daemon client — IPC transport, endpoint/paths resolution, and daemon lifecycle/extract. Embeds the daemon bundle; shared by the blackboxqa and blackboxqa-browser CLIs.",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "prebuild": "node scripts/embed-daemon.mjs",
+    "build": "pnpm prebuild",
+    "compile": "pnpm prebuild && tsc --noEmit",
+    "test": "pnpm prebuild && vitest run",
+    "test:watch": "pnpm prebuild && vitest",
+    "clean": "rm -rf coverage .turbo src/assets/embedded.generated.ts"
+  },
+  "dependencies": {
+    "@blackboxqa/logger": "workspace:*",
+    "@blackboxqa/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@blackboxqa/config": "workspace:*",
+    "@blackboxqa/daemon": "workspace:*",
+    "@types/node": "^20.17.10",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.0"
+  }
+}
