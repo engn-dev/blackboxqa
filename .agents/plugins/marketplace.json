@@ -1,14 +1,14 @@
 {
-  "name": "canary-marketplace",
+  "name": "blackboxqa-marketplace",
   "interface": {
-    "displayName": "Canary"
+    "displayName": "BlackboxQA"
   },
   "plugins": [
     {
-      "name": "canary",
+      "name": "blackboxqa",
       "source": {
         "source": "local",
-        "path": "./plugins/canary"
+        "path": "./plugins/blackboxqa"
       },
       "policy": {
         "installation": "AVAILABLE",

@@ -1,29 +1,29 @@
 {
-  "name": "canary",
+  "name": "blackboxqa",
   "version": "0.4.4",
-  "description": "Canary browser automation + recorded QA sessions: sandbox scripting skills and verify/automate/session/review workflows for Codex.",
+  "description": "BlackboxQA browser automation + recorded QA sessions: sandbox scripting skills and verify/automate/session/review workflows for Codex.",
   "author": {
-    "name": "wizenheimer",
-    "url": "https://github.com/wizenheimer"
+    "name": "engn-dev",
+    "url": "https://github.com/engn-dev"
   },
-  "homepage": "https://github.com/wizenheimer/canary",
-  "repository": "https://github.com/wizenheimer/canary",
+  "homepage": "https://github.com/engn-dev/blackboxqa",
+  "repository": "https://github.com/engn-dev/blackboxqa",
   "license": "MIT",
-  "keywords": ["canary", "browser-automation", "qa", "codex"],
+  "keywords": ["blackboxqa", "browser-automation", "qa", "codex"],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Canary",
+    "displayName": "BlackboxQA",
     "shortDescription": "Automate a browser and record verifiable QA sessions.",
-    "longDescription": "Canary gives Codex a sandbox scripting reference plus focused workflows to turn a code change into a QA plan, automate a browser one-off, record a capture-enabled QA session (trace/video/HAR/console) with a report, and review recorded sessions.",
-    "developerName": "Canary",
+    "longDescription": "BlackboxQA gives Codex a sandbox scripting reference plus focused workflows to turn a code change into a QA plan, automate a browser one-off, record a capture-enabled QA session (trace/video/HAR/console) with a report, and review recorded sessions.",
+    "developerName": "BlackboxQA",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
-    "websiteURL": "https://github.com/wizenheimer/canary",
+    "websiteURL": "https://github.com/engn-dev/blackboxqa",
     "defaultPrompt": [
       "What should I QA for these changes?",
       "Automate this browser task.",
       "Record a QA session for this flow.",
-      "Review my last canary session."
+      "Review my last blackboxqa session."
     ],
     "brandColor": "#111827"
   }

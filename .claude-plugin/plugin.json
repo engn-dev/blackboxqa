@@ -1,13 +1,19 @@
 {
-  "name": "canary",
-  "description": "Canary browser automation + recorded QA sessions: a sandbox scripting reference, verify/automate/session/review skills, JTBD subagents, and /canary slash commands.",
+  "name": "blackboxqa",
+  "description": "BlackboxQA browser automation + recorded QA sessions: a sandbox scripting reference, verify/automate/session/review skills, JTBD subagents, and /blackboxqa slash commands.",
   "version": "0.4.4",
   "author": {
-    "name": "wizenheimer",
-    "url": "https://github.com/wizenheimer"
+    "name": "engn-dev",
+    "url": "https://github.com/engn-dev"
   },
-  "homepage": "https://github.com/wizenheimer/canary",
-  "repository": "https://github.com/wizenheimer/canary",
+  "homepage": "https://github.com/engn-dev/blackboxqa",
+  "repository": "https://github.com/engn-dev/blackboxqa",
   "license": "MIT",
-  "keywords": ["canary", "browser-automation", "qa", "playwright", "testing"]
+  "keywords": [
+    "blackboxqa",
+    "browser-automation",
+    "qa",
+    "playwright",
+    "testing"
+  ]
 }
