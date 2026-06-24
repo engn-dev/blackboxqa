@@ -27,7 +27,7 @@ CLI     := @blackboxqa/cli
         typecheck lint format doctor docs docs-check \
         test test-browser test-daemon test-ui test-cli \
         watch-browser watch-daemon watch-ui watch-cli \
-        check ci ui release
+        check ci ui
 
 ##@ General
 
@@ -147,9 +147,3 @@ ci: ## Full CI gate from clean: frozen install + check
 
 ui: build-ui ## Build and serve the local session viewer
 	pnpm --filter $(UI) start
-
-##@ Release
-
-release: ## Cut a release: bump + commit + tag, then YOU `git push --follow-tags`
-	@BUMP="$(BUMP)" VERSION="$(VERSION)" YES="$(YES)" NO_VERIFY="$(NO_VERIFY)" \
-		ALLOW_DIRTY="$(ALLOW_DIRTY)" bash scripts/release.sh

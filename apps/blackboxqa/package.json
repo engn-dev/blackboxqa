@@ -1,6 +1,7 @@
 {
   "name": "@blackboxqa/cli",
   "version": "0.4.4",
+  "private": true,
   "type": "module",
   "description": "BlackboxQA session orchestrator CLI. Drives the daemon to run capture-enabled QA sessions (trace/video/HAR/console) and renders self-contained verification reports.",
   "license": "MIT",
@@ -32,9 +33,6 @@
     "NOTICE",
     "THIRD-PARTY-LICENSES"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "tsx src/cli.ts",

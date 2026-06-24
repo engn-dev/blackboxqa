@@ -9,7 +9,7 @@ BlackboxQA is an AI-agent QA toolkit for driving real browsers. The pieces:
 1. **`blackboxqa` (orchestrator CLI, `@blackboxqa/cli`)** — records capture-enabled QA sessions (trace/video/HAR/console) as a series of script steps and renders a self-contained report. The primary, user-facing CLI.
 2. **`blackboxqa-browser` (engine CLI, `@blackboxqa/browser`)** — one-off browser automation: persistent named pages, sandboxed JavaScript, headless or headed. Embeds and supervises the daemon.
 3. **`blackboxqa-daemon`** — a long-running Node process owning Playwright + a QuickJS sandbox. Embedded into the CLIs at build time. Speaks line-delimited JSON over a named pipe / Unix socket.
-4. **`blackboxqa-ui` (`@blackboxqa/ui`)** — the local session viewer; ships standalone. Run it with `blackboxqa-viewer` (after `npm i -g @blackboxqa/ui`), or `blackboxqa ui` from a repo checkout, or one-off via `npx @blackboxqa/ui`.
+4. **`blackboxqa-ui` (`@blackboxqa/ui`)** — the local session viewer; ships standalone. Run it with `blackboxqa-viewer`, or `blackboxqa ui` from a repo checkout.
 
 Both CLIs reach the browser the same way:
 
@@ -24,8 +24,8 @@ blackboxqa run … --session …   /   blackboxqa-browser run …   →   daemon
 | `apps/blackboxqa`            | Session orchestrator CLI (`blackboxqa`) — records QA sessions, renders reports. The primary CLI.    |
 | `apps/blackboxqa-browser`    | Browser-automation engine CLI (`blackboxqa-browser`) — owns the daemon lifecycle, embeds the daemon |
 | `apps/blackboxqa-daemon`     | Internal Playwright host + QuickJS sandbox. Built standalone, embedded into the CLIs            |
-| `apps/blackboxqa-ui`         | Local web viewer (Astro + React islands). Reads `results.json`; run via `blackboxqa ui` or `npx @blackboxqa/ui` |
-| `apps/create-blackboxqa`     | `npm create blackboxqa` setup wizard (Ink)                                                          |
+| `apps/blackboxqa-ui`         | Local web viewer (Astro + React islands). Reads `results.json`; run via `blackboxqa ui` or `blackboxqa-viewer` |
+| `apps/create-blackboxqa`     | Guided setup wizard (Ink)                                                          |
 | `packages/protocol`      | Zod IPC schemas. Single source of truth — daemon validates, CLIs infer types                    |
 | `packages/config`        | Shared tsconfig bases (`base`, `node-app`)                                                       |
 | `packages/logger`        | Shared pino-backed structured logger (source-distributed)                                       |

@@ -1,6 +1,7 @@
 {
   "name": "@blackboxqa/browser",
   "version": "0.4.4",
+  "private": true,
   "type": "module",
   "description": "Browser-automation CLI. Supervises the embedded blackboxqa-daemon and exposes a scriptable API over named-page persistent browsers.",
   "license": "MIT",
@@ -30,9 +31,6 @@
     "NOTICE",
     "THIRD-PARTY-LICENSES"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "tsx src/cli.ts",

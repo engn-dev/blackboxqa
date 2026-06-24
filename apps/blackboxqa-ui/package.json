@@ -1,7 +1,7 @@
 {
   "name": "@blackboxqa/ui",
   "version": "0.4.4",
-  "private": false,
+  "private": true,
   "type": "module",
   "description": "Local web viewer for blackboxqa sessions — reads results.json, lists/organizes/searches recorded sessions, styled after the self-contained report.",
   "license": "MIT",
@@ -31,9 +31,6 @@
   ],
   "exports": {
     "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "scripts": {
     "build": "astro build",

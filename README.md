@@ -52,15 +52,22 @@ maintain by hand. BlackboxQA gives you both.
 
 ## Get started
 
+BlackboxQA isn't published to npm — build it from source (it's also available as an agent plugin;
+see [Use it with your coding agent](#use-it-with-your-coding-agent)):
+
 ```bash
-npm i -g @blackboxqa/cli @blackboxqa/ui   # puts `blackboxqa` + `blackboxqa-viewer` on your PATH
-blackboxqa install                          # one-time: Chromium + the runtime into ~/.blackboxqa (~150 MB)
+git clone https://github.com/engn-dev/blackboxqa.git
+cd blackboxqa
+make install   # pnpm install across the workspace
+make build     # build every package in topo order
 ```
 
-…or run the guided wizard, which offers to install all of the above for you:
+Put `blackboxqa` and `blackboxqa-viewer` on your PATH from the local build, then fetch the runtime:
 
 ```bash
-npm create blackboxqa@latest                # guided setup (Ink wizard)
+(cd apps/blackboxqa && pnpm link --global)
+(cd apps/blackboxqa-ui && pnpm link --global)
+blackboxqa install                          # one-time: Chromium + the runtime into ~/.blackboxqa (~150 MB)
 ```
 
 Record a session and open the report:
@@ -93,9 +100,6 @@ const page = await browser.getPage("main");
 console.log(await page.title());
 EOF
 ```
-
-> Prefer not to install? Every command also runs one-off via npx, e.g.
-> `npx @blackboxqa/cli session start …` and `npx @blackboxqa/ui`.
 
 ## Everything your agent does, on the record
 
@@ -207,7 +211,7 @@ each paired with a subagent and a slash command: `/blackboxqa:verify`, `/blackbo
 | ------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------- |
 | **CLI** `@blackboxqa/cli`        | `blackboxqa`                           | Record capture-enabled QA sessions and render reports. The main, user-facing tool. |
 | **Engine** `@blackboxqa/browser` | `blackboxqa-browser`                   | Drive a browser for quick, one-off automation — no recording, no report.           |
-| **Viewer** `@blackboxqa/ui`      | `blackboxqa-viewer` · `npx @blackboxqa/ui` | Browse, search, organize, and replay every recorded session locally.            |
+| **Viewer** `@blackboxqa/ui`      | `blackboxqa-viewer` | Browse, search, organize, and replay every recorded session locally.            |
 
 Both CLIs share one background daemon (Playwright + a QuickJS sandbox) that starts automatically when
 needed. Stop it anytime with **`blackboxqa stop`** (alias: `blackboxqa daemon stop`, or `blackboxqa-browser stop`) —
@@ -295,30 +299,24 @@ the `blackboxqa-scripting` skill and its `references/REFERENCE.md` carry the ful
 
 ## Updating
 
-Already installed? Grab the latest CLIs from npm, then refresh the runtime:
+Pull the latest and rebuild:
 
 ```bash
-npm i -g @blackboxqa/cli@latest @blackboxqa/ui@latest   # update blackboxqa + blackboxqa-viewer
-blackboxqa install                                        # refresh the runtime (Chromium + Playwright)
+git pull
+make install && make build
+blackboxqa install        # refresh the runtime (Chromium + Playwright) if the pinned version changed
 ```
 
-`blackboxqa install` is safe to re-run — it pulls the browser/runtime versions the new CLI pins. Running
-via npx instead of a global install? `npx @blackboxqa/cli@latest …` always fetches the newest release.
+`blackboxqa install` is safe to re-run — it pulls the browser/runtime versions the build pins.
 
 **Agent integrations** update through each agent's own mechanism:
 
 ```bash
 # Claude Code — refresh the marketplace catalog, then update from /plugin:
 /plugin marketplace update blackboxqa-marketplace
-# or turn on auto-update: /plugin → Marketplaces → blackboxqa-marketplace → Enable auto-update
-# (third-party marketplaces ship with auto-update OFF)
 
 # Cursor / Codex — update "blackboxqa" from each marketplace UI.
 ```
-
-Claude Code detects plugin updates by comparing manifest **versions** (bumped every release); Cursor
-and Codex do the same against their plugin manifests, so every release makes the latest `skills/`
-update-visible.
 
 ## Contributing & development
 
@@ -335,7 +333,7 @@ blackboxqa/
 │   ├── blackboxqa-browser/     # @blackboxqa/browser  bin: blackboxqa-browser  — browser-automation engine (one-off runs)
 │   ├── blackboxqa-daemon/      # @blackboxqa/daemon   no bin               — Playwright + QuickJS runtime (embedded into the CLIs)
 │   ├── blackboxqa-ui/          # @blackboxqa/ui       bin: blackboxqa-viewer   — local session viewer (Astro); `blackboxqa-viewer`
-│   └── create-blackboxqa/      # create-blackboxqa    bin: create-blackboxqa   — `npm create blackboxqa` setup wizard (Ink)
+│   └── create-blackboxqa/      # create-blackboxqa    bin: create-blackboxqa   — guided setup wizard (Ink)
 ├── packages/
 │   ├── protocol/           # @blackboxqa/protocol         IPC schemas (Zod), single source of truth
 │   ├── config/             # @blackboxqa/config           shared tsconfig bases
@@ -355,8 +353,7 @@ blackboxqa/
 ```
 
 `blackboxqa` (the orchestrator) and `blackboxqa-browser` (the engine) both embed and supervise
-`blackboxqa-daemon` (the long-running Playwright host). The viewer ships standalone — `blackboxqa-viewer`
-(or one-off via `npx @blackboxqa/ui`).
+`blackboxqa-daemon` (the long-running Playwright host). The viewer ships standalone — `blackboxqa-viewer`.
 
 </details>
 
@@ -380,8 +377,8 @@ Run `make` with no args to see all targets.
 
 </details>
 
-See [`AGENTS.md`](AGENTS.md) for architecture and orientation, [`CONTRIBUTING.md`](CONTRIBUTING.md)
-for the contribution flow, and [`RELEASING.md`](RELEASING.md) for the publish pipeline.
+See [`AGENTS.md`](AGENTS.md) for architecture and orientation and
+[`CONTRIBUTING.md`](CONTRIBUTING.md) for the contribution flow.
 
 ## License
 

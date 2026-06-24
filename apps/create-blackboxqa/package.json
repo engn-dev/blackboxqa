@@ -1,8 +1,9 @@
 {
   "name": "create-blackboxqa",
   "version": "0.4.4",
+  "private": true,
   "type": "module",
-  "description": "Set up blackboxqa — browser automation + recorded QA sessions. Run `npm create blackboxqa`.",
+  "description": "Set up blackboxqa — browser automation + recorded QA sessions.",
   "license": "MIT",
   "keywords": [
     "blackboxqa",
@@ -27,9 +28,6 @@
   "files": [
     "dist/"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "tsx src/cli.tsx",
